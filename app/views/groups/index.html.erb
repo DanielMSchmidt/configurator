@@ -1,0 +1,32 @@
+<h1>Listing groups</h1>
+
+<% @groups.each do |group| %>
+<div class="group">
+  <h3><%= group.name %></h3>
+  <select name="<%= group.name %>" id="<%= group.name %>">
+   <% group.products.select{|x| x.default?}.each do |product| %>
+    <option value="<%= product.value %>"><Lisbon><%= product.name %></option>
+  <% end %>
+   <% group.products.select{|x| !x.default?}.each do |product| %>
+    <option value="<%= product.value %>"><Lisbon><%= product.name %></option>
+  <% end %>
+  </select>
+  <div id="value">
+    <%= group.products.select{|x| x.default?}.first.value %>
+  </div>
+  <div class="controll">
+    <%= link_to 'Add a Product', new_product_path %>
+    <%= link_to 'Edit', edit_group_path(group) %>
+    <%= link_to 'Destroy', group, method: :delete, data: { confirm: 'Are you sure?' } %>
+  </div>
+</div>
+<% end %>
+
+<div id="total-amount">
+<h2> Total Amount: </h2>
+<span></span>
+</div>
+
+<br />
+
+<%= link_to 'New Group', new_group_path %>
