@@ -44,6 +44,7 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       if @group.save
+        @group.products.create!(name: 'Nothing', default: true, value: '0') if @group.no_option_available?
         format.html { redirect_to @group, notice: 'Group was successfully created.' }
         format.json { render json: @group, status: :created, location: @group }
       else

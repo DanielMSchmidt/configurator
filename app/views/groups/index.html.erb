@@ -3,17 +3,26 @@
 <% @groups.each do |group| %>
 <div class="group">
   <h3><%= group.name %></h3>
-  <select name="<%= group.name %>" id="<%= group.name %>">
-   <% group.products.select{|x| x.default?}.each do |product| %>
-    <option value="<%= product.value %>"><Lisbon><%= product.name %></option>
+  <% if group.products.nil? || group.products.empty?%>
+    <p class="error">There are no product in this group!</p>
+  <% else %>
+    <select name="<%= group.name %>" id="<%= group.name %>">
+      <% unless group.products.select{|x| x.default?}.nil? %>
+        <% group.products.select{|x| x.default?}.each do |product| %>
+          <option value="<%= product.value %>"><Lisbon><%= product.name %></option>
+        <% end %>
+      <% end %>
+
+      <% unless group.products.select{|x| !x.default?}.nil? %>
+        <% group.products.select{|x| !x.default?}.each do |product| %>
+          <option value="<%= product.value %>"><Lisbon><%= product.name %></option>
+        <% end %>
+      <% end %>
+    </select>
+    <div id="value">
+    </div>
   <% end %>
-   <% group.products.select{|x| !x.default?}.each do |product| %>
-    <option value="<%= product.value %>"><Lisbon><%= product.name %></option>
-  <% end %>
-  </select>
-  <div id="value">
-    <%= group.products.select{|x| x.default?}.first.value %>
-  </div>
+
   <div class="controll">
     <%= link_to 'Add a Product', new_product_path %>
     <%= link_to 'Edit', edit_group_path(group) %>
@@ -24,7 +33,7 @@
 
 <div id="total-amount">
 <h2> Total Amount: </h2>
-<span></span>
+<span class="value"></span><span class="currency">€</span>
 </div>
 
 <br />
