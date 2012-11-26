@@ -1,0 +1,17 @@
+<form>
+  <fieldset>
+    <% @groups.each do |group| %>
+      <% unless group.products.nil? || group.products.empty?%>
+        <% products = group.products.select{|x| x.default?} + group.products.select{|x| !x.default?} %>
+        <% productnames = products.collect!{|x| x.name}%>
+        <%= select(group.name, 'select', productnames) %>
+        <div id="value">
+        </div>
+      <% end %>
+    <% end %>
+  </fieldset>
+</form>
+<div id="total-amount">
+  <h2> Insgesamt: </h2>
+  <span class="value"></span><span class="currency">€</span>
+</div>

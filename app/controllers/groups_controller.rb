@@ -10,6 +10,11 @@ class GroupsController < ApplicationController
     end
   end
 
+  def cleared_output
+    @groups = Group.all
+    render layout: false
+  end
+
   # GET /groups/1
   # GET /groups/1.json
   def show
