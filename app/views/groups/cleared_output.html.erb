@@ -1,11 +1,13 @@
-<form>
+<form id="products">
   <fieldset>
     <% @groups.each do |group| %>
       <% unless group.products.nil? || group.products.empty?%>
-        <% products = group.products.select{|x| x.default?} + group.products.select{|x| !x.default?} %>
-        <% productnames = products.collect!{|x| x.name}%>
-        <%= select(group.name, 'select', productnames) %>
-        <div id="value">
+        <div id="<%= group.name%>" class="group">
+          <% products = group.products.select{|x| x.default?} + group.products.select{|x| !x.default?} %>
+          <% productnames = products.collect!{|x| x.name}%>
+          <%= label(group.name, 'select', group.name)%>
+          <%= select(group.name, 'select', products.collect{|x| [x.name, x.value] }) %>
+          <div class="product-value"></div>
         </div>
       <% end %>
     <% end %>

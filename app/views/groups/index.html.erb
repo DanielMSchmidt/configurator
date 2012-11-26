@@ -1,15 +1,16 @@
 <h1>Listing groups</h1>
-<form>
+<form id="products">
   <fieldset>
 <% @groups.each do |group| %>
   <% if group.products.nil? || group.products.empty?%>
     <h3><%= group.name %></h3>
     <p class="error">There are no product in this group!</p>
   <% else %>
-    <% products = group.products.select{|x| x.default?} + group.products.select{|x| !x.default?} %>
-    <% productnames = products.collect!{|x| x.name}%>
-    <%= select(group.name, 'select', productnames) %>
-    <div id="value">
+    <div id="<%= group.name%>" class="group">
+      <% products = group.products.select{|x| x.default?} + group.products.select{|x| !x.default?} %>
+      <%= label(group.name, 'select', group.name)%>
+      <%= select(group.name, 'select', products.collect{|x| [x.name, x.value] }) %>
+      <div id='value_<%=group.name.gsub(/\s/, '_')%>' class="product-value"></div>
     </div>
   <% end %>
 
